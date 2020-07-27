@@ -1,9 +1,9 @@
 import React from 'react'
-import { Pokedex } from 'pokeapi-js-wrapper'
+import PokemonService from '@/services/pokemon-service'
 import PokemonCard from '@/containers/PokemonCard'
 
 const PokemonList = () => {
-  const PokemonAPI = React.useMemo(() => new Pokedex(), [])
+  const PokemonSvc = React.useMemo(() => new PokemonService(), [])
   const [pokemons, setPokemons] = React.useState(null)
   const [isLoading, setLoading] = React.useState(true)
 
@@ -14,13 +14,10 @@ const PokemonList = () => {
   const _getPokemonList = async () => {
     try {
       setLoading(true)
-      const pokemonList = await PokemonAPI.getPokemonsList({
-        limit: 10,
-        offset: 1
+      const pokemonList = await PokemonSvc.getPokemonList({
+        offset: 0
       })
-
-      const { results } = pokemonList
-      setPokemons(results)
+      setPokemons(pokemonList)
       setLoading(false)
     } catch (e) {
       setLoading(false)
