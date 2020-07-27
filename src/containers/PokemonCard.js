@@ -4,6 +4,7 @@ import {
   formatHeightInMeter,
   formatWeightInKilogram
 } from '@/utils/size-format'
+import Pills from '@/components/Pills'
 
 const PokemonCard = ({ pokemon }) => {
   const { id, name, types, height, weight, abilities, sprites } = pokemon
@@ -19,9 +20,7 @@ const PokemonCard = ({ pokemon }) => {
           <div className="text-xs text-gray-600">Type</div>
           <div>
             {types.map(({ type, slot }) => (
-              <div key={`${name}-type-${slot}`} className="text-sm">
-                {type.name}
-              </div>
+              <Pills key={`${name}-type-${slot}`} type={type.name} />
             ))}
           </div>
         </div>
