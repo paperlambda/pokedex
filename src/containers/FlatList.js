@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 class FlatList extends React.Component {
   constructor(props) {
     super(props)
-    this.isBottomOf = this.isBottomOf.bind(this)
     this.didScroll = this.didScroll.bind(this)
     this.state = {
       lastThreshold: null
