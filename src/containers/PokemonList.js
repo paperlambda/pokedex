@@ -1,6 +1,7 @@
 import React from 'react'
 import PokemonService from '@/services/pokemon-service'
 import PokemonCard from '@/containers/PokemonCard'
+import FlatList from '@/containers/FlatList'
 
 const PokemonList = () => {
   const PokemonSvc = React.useMemo(() => new PokemonService(), [])
@@ -25,16 +26,20 @@ const PokemonList = () => {
     }
   }
 
+  const didReachThreshold = eventListener => {
+    console.log('REACH THRESHOLD')
+  }
+
   if (isLoading) {
     return <div>Loading...</div>
   }
 
   return (
-    <div>
+    <FlatList onReachThreshold={didReachThreshold}>
       {pokemons.map(pokemon => (
         <PokemonCard key={pokemon.name} pokemon={pokemon} />
       ))}
-    </div>
+    </FlatList>
   )
 }
 
