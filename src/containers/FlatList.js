@@ -6,6 +6,9 @@ class FlatList extends React.Component {
     super(props)
     this.isBottomOf = this.isBottomOf.bind(this)
     this.didScroll = this.didScroll.bind(this)
+    this.state = {
+      lastThreshold: null
+    }
   }
 
   componentDidMount() {
@@ -16,17 +19,17 @@ class FlatList extends React.Component {
     document.removeEventListener('scroll', this.didScroll)
   }
 
-  isBottomOf(el) {
-    if (el) {
-      return el.getBoundingClientRect().bottom - 300 <= window.innerHeight
-    }
-    return false
-  }
-
   didScroll() {
     const { onReachThreshold } = this.props
+    const { lastThreshold } = this.state
     const wrappedElement = document.getElementById('flat-list')
-    if (this.isBottomOf(wrappedElement)) {
+
+    const scrollBottomPosition = wrappedElement.getBoundingClientRect().bottom
+    const isInThreshold = scrollBottomPosition - 300 <= window.innerHeight
+    const isScrollingUp = scrollBottomPosition < lastThreshold
+
+    if (isInThreshold && !isScrollingUp) {
+      this.setState({ lastThreshold: scrollBottomPosition })
       onReachThreshold(this.didScroll)
     }
   }
