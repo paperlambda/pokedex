@@ -1,5 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import {
+  formatHeightInMeter,
+  formatWeightInKilogram
+} from '@/utils/size-format'
 
 const PokemonCard = ({ pokemon }) => {
   const { id, name, types, height, weight, abilities, sprites } = pokemon
@@ -24,7 +28,7 @@ const PokemonCard = ({ pokemon }) => {
         <div className="mb-1">
           <div className="text-xs text-gray-600">Height / Weight</div>
           <div className="text-sm">
-            {height} / {weight}
+            {formatHeightInMeter(height)} / {formatWeightInKilogram(weight)}
           </div>
         </div>
         <div className="mb-1">
