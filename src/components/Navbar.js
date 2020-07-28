@@ -7,6 +7,7 @@ const Navbar = () => (
     css={css`
       height: 56px;
       top: 0px;
+      z-index: 99;
     `}
   >
     <h3 className="flex items-center text-xl">Pokedex</h3>
