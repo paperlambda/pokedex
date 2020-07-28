@@ -6,12 +6,22 @@ export default class PokemonService {
     this.limit = 10
   }
 
-  async getPokemonList(offset) {
+  async getPokemonList({ offset, filterType }) {
     try {
-      const list = await this.PokemonAPI.getPokemonsList({
-        limit: this.limit,
-        offset
-      })
+      let list
+      if (filterType) {
+        list = await this.PokemonAPI.getTypeByName(filterType).then(
+          response => {
+            return { results: response.pokemon.map(pkmn => pkmn.pokemon) }
+          }
+        )
+      } else {
+        list = await this.PokemonAPI.getPokemonsList({
+          limit: this.limit,
+          offset
+        })
+      }
+
       if (list) {
         const { results } = list
 

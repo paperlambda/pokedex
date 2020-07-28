@@ -13,7 +13,7 @@ const PokemonCard = ({ pokemon }) => {
       <div className="h-auto w-48 bg-gray-300 items-center justify-center flex flex-none rounded-l">
         <img src={sprites.front_default} alt={name} />
       </div>
-      <div className="w-full border-r border-b border-t border-gray-400 bg-white rounded-r px-4 py-2 flex flex-col justify-between leading-normal">
+      <div className="w-full border-r border-b border-t border-gray-300 bg-white rounded-r px-4 py-2 flex flex-col justify-between leading-normal">
         <div className="text-sm text-gray-700">{`#${id}`}</div>
         <div className="font-bold text-xl capitalize mb-1">{name}</div>
         <div className="mb-1">
@@ -55,7 +55,7 @@ PokemonCard.propTypes = {
     weight: PropTypes.number.isRequired,
     abilities: PropTypes.array.isRequired,
     sprites: PropTypes.shape({
-      front_default: PropTypes.string.isRequired
+      front_default: PropTypes.string
     })
   })
 }

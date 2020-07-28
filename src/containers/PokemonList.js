@@ -1,6 +1,7 @@
 import React from 'react'
 import PokemonService from '@/services/pokemon-service'
 import PokemonCard from '@/containers/PokemonCard'
+import FilterForm from '@/containers/FilterForm'
 
 const PokemonList = () => {
   const PokemonSvc = React.useMemo(() => new PokemonService(), [])
@@ -14,6 +15,8 @@ const PokemonList = () => {
         return { ...state, loading: action.loading }
       case 'NEXT_OFFSET':
         return { ...state, offset: state.offset + 10 }
+      case 'SET_FILTER':
+        return { ...state, filter: action.filter, pokemons: [], offset: 0 }
       default:
         return state
     }
@@ -21,20 +24,24 @@ const PokemonList = () => {
 
   const [pokemon, pokemonDispatch] = React.useReducer(pokemonReducer, {
     pokemons: [],
-    offset: 0
+    offset: 0,
+    filter: null
   })
 
   const getPokemonList = React.useCallback(async () => {
     try {
       pokemonDispatch({ type: 'SET_LOADING', loading: true })
-      const pokemonList = await PokemonSvc.getPokemonList(pokemon.offset)
+      const pokemonList = await PokemonSvc.getPokemonList({
+        offset: pokemon.offset,
+        filterType: pokemon.filter
+      })
       pokemonDispatch({ type: 'SET_POKEMON', pokemons: pokemonList })
       pokemonDispatch({ type: 'SET_LOADING', loading: false })
     } catch (e) {
       pokemonDispatch({ type: 'SET_LOADING', loading: false })
       console.error(e)
     }
-  }, [pokemonDispatch, pokemon.offset])
+  }, [pokemonDispatch, pokemon.offset, pokemon.filter])
 
   React.useEffect(() => {
     getPokemonList()
@@ -46,7 +53,9 @@ const PokemonList = () => {
       new IntersectionObserver(entries => {
         entries.forEach(entry => {
           if (entry.intersectionRatio > 0) {
-            pokemonDispatch({ type: 'NEXT_OFFSET' })
+            setTimeout(() => {
+              pokemonDispatch({ type: 'NEXT_OFFSET' })
+            }, 500)
           }
         })
       }).observe(node)
@@ -60,13 +69,20 @@ const PokemonList = () => {
     }
   }, [scrollObserver, rockBottom])
 
+  const applyFilter = type => {
+    pokemonDispatch({ type: 'SET_FILTER', filter: type })
+  }
+
   return (
     <div>
-      {pokemon.pokemons.map(pkmn => (
-        <PokemonCard key={pkmn.name} pokemon={pkmn} />
-      ))}
-      <div className="text-center mt-3" ref={rockBottom}>
-        Loading...
+      <FilterForm willApplyFilter={applyFilter} />
+      <div>
+        {pokemon.pokemons.map(pkmn => (
+          <PokemonCard key={pkmn.name} pokemon={pkmn} />
+        ))}
+        <div className="text-center mt-3" ref={rockBottom}>
+          Loading...
+        </div>
       </div>
     </div>
   )
