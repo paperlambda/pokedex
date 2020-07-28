@@ -2,6 +2,7 @@ import React from 'react'
 import PokemonService from '@/services/pokemon-service'
 import PokemonCard from '@/containers/PokemonCard'
 import FilterForm from '@/containers/FilterForm'
+import SkeletonCard from '@/components/SkeletonCard'
 
 const PokemonList = () => {
   const PokemonSvc = React.useMemo(() => new PokemonService(), [])
@@ -80,9 +81,16 @@ const PokemonList = () => {
         {pokemon.pokemons.map(pkmn => (
           <PokemonCard key={pkmn.name} pokemon={pkmn} />
         ))}
-        <div className="text-center mt-3" ref={rockBottom}>
-          Loading...
-        </div>
+
+        {/* SKELETON LOADING INDICATOR */}
+        {!pokemon.filter && (
+          <div>
+            {[1, 2, 3, 4].map(v => (
+              <SkeletonCard key={v} />
+            ))}
+            <div className="mt-1" ref={rockBottom} />
+          </div>
+        )}
       </div>
     </div>
   )
