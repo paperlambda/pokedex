@@ -54,9 +54,7 @@ const PokemonList = () => {
       new IntersectionObserver(entries => {
         entries.forEach(entry => {
           if (entry.intersectionRatio > 0) {
-            setTimeout(() => {
-              pokemonDispatch({ type: 'NEXT_OFFSET' })
-            }, 500)
+            pokemonDispatch({ type: 'NEXT_OFFSET' })
           }
         })
       }).observe(node)
