@@ -17,8 +17,7 @@ const PokemonTypes = {
   ghost: '#705898',
   dark: '#705848',
   steel: '#B8B8D0',
-  fairy: '#EE99AC',
-  '???': '#68A090'
+  fairy: '#EE99AC'
 }
 
 export default PokemonTypes
