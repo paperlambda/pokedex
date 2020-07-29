@@ -54,7 +54,9 @@ const PokemonList = () => {
       new IntersectionObserver(entries => {
         entries.forEach(entry => {
           if (entry.intersectionRatio > 0) {
-            pokemonDispatch({ type: 'NEXT_OFFSET' })
+            setTimeout(() => {
+              pokemonDispatch({ type: 'NEXT_OFFSET' })
+            }, 300)
           }
         })
       }).observe(node)
@@ -86,7 +88,7 @@ const PokemonList = () => {
             {[1, 2, 3, 4].map(v => (
               <SkeletonCard key={v} />
             ))}
-            <div className="mt-1" ref={rockBottom} />
+            <div className="h-24" ref={rockBottom} />
           </div>
         )}
       </div>
